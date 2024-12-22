@@ -10,6 +10,11 @@ import (
 
 func (s *helloServer) UpdateBook(ctx context.Context, req *pb.UpdateBookRequest) (*pb.UpdateBookResponse, error) {
 
+	if err := ValidateUpdateBookRequest(req); err != nil {
+		return nil, fmt.Errorf("validation error: %v", err)
+	}
+
+	
 	db.Mu.Lock()
 	defer db.Mu.Unlock()
 	

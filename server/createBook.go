@@ -10,6 +10,10 @@ import (
 
 func (s *helloServer) CreateBook(ctx context.Context, req *pb.CreateBookRequest) (*pb.CreateBookResponse, error) {
 
+	if err := ValidateCreateBookRequest(req); err != nil {
+		return nil, fmt.Errorf("validation error: %v", err)
+	}
+
 	db.Mu.Lock()
 	defer db.Mu.Unlock()
 
@@ -20,7 +24,7 @@ func (s *helloServer) CreateBook(ctx context.Context, req *pb.CreateBookRequest)
 		Title:  req.Title,
 		Author: req.Author,
 		Genre:  req.Genre,
-		Year:   fmt.Sprintf("%d", req.Year),
+		Year:   req.Year,
 		Price:  req.Price,
 	}
 

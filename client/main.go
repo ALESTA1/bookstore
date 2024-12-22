@@ -24,7 +24,7 @@ func main() {
 		Title:  "The Catcher in the Rye",
 		Author: "J.D. Salinger",
 		Genre:  "Fiction",
-		Year:   1951,
+		Year:   "1951",
 		Price:  12.99,
 	}
 

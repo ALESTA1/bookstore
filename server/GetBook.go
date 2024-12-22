@@ -8,7 +8,10 @@ import (
 )
 
 func (s *helloServer) GetBook(ctx context.Context, req *pb.GetBookRequest) (*pb.GetBookResponse, error) {
-	
+
+	if err := ValidateGetBookRequest(req); err != nil {
+		return nil, fmt.Errorf("validation error: %v", err)
+	}
 
 	book, exists := db.BookMap[req.Id]
 	if !exists {

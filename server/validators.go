@@ -31,7 +31,6 @@ func ValidateGetBookRequest(req *pb.GetBookRequest) error {
 	return nil
 }
 
-
 func ValidateUpdateBookRequest(req *pb.UpdateBookRequest) error {
 	if req.Book == nil {
 		return errors.New("book cannot be nil")
@@ -60,6 +59,26 @@ func ValidateUpdateBookRequest(req *pb.UpdateBookRequest) error {
 func ValidateDeleteBookRequest(req *pb.DeleteBookRequest) error {
 	if req.Id <= 0 {
 		return errors.New("id must be a positive integer")
+	}
+	return nil
+}
+
+func ValidateRegisterRequest(req *pb.RegisterRequest) error {
+	if req.Username == "" {
+		return errors.New("cannot be empty")
+	}
+	if req.Password == "" {
+		return errors.New("cannot be empty")
+	}
+	return nil
+}
+
+func ValidateLoginRequest(req *pb.LoginRequest) error {
+	if req.Username == "" {
+		return errors.New("cannot be empty")
+	}
+	if req.Password == "" {
+		return errors.New("cannot be empty")
 	}
 	return nil
 }

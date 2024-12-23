@@ -1,4 +1,4 @@
-package main
+package test
 
 import (
 	"context"
@@ -7,13 +7,13 @@ import (
 	"time"
 
 	pb "bookstore/proto"
+	"net"
+
 	"github.com/stretchr/testify/assert"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/reflection"
-	"net"
 )
-
 
 func startTestServer() *grpc.Server {
 	lis, err := net.Listen("tcp", "localhost:8080")
@@ -32,10 +32,10 @@ func startTestServer() *grpc.Server {
 }
 
 func TestClientServerInteraction(t *testing.T) {
-	
+
 	server := startTestServer()
-	defer server.Stop() 
-	
+	defer server.Stop()
+
 	time.Sleep(1 * time.Second)
 
 	conn, err := grpc.Dial("localhost:8080", grpc.WithInsecure())
@@ -56,7 +56,6 @@ func TestClientServerInteraction(t *testing.T) {
 	_, err = client.Register(ctx, registerReq)
 	assert.NoError(t, err, "Failed to register user")
 
-	
 	loginReq := &pb.LoginRequest{
 		Username: "testuser",
 		Password: "testpassword",
@@ -66,7 +65,6 @@ func TestClientServerInteraction(t *testing.T) {
 	assert.NotEmpty(t, loginResp.AccessToken, "Access token should not be empty")
 	token := loginResp.AccessToken
 
-	
 	authCtx := metadata.NewOutgoingContext(ctx, metadata.Pairs("authorization", token))
 	createReq := &pb.CreateBookRequest{
 		Title:  "The Catcher in the Rye",
@@ -86,7 +84,6 @@ func TestClientServerInteraction(t *testing.T) {
 	assert.NoError(t, err, "Failed to get book")
 	assert.Equal(t, "The Catcher in the Rye", getResp.Book.Title, "Retrieved book title should match")
 
-	
 	updateReq := &pb.UpdateBookRequest{
 		Book: &pb.Book{
 			Id:     createResp.Book.Id,
@@ -100,7 +97,6 @@ func TestClientServerInteraction(t *testing.T) {
 	updateResp, err := client.UpdateBook(authCtx, updateReq)
 	assert.NoError(t, err, "Failed to update book")
 	assert.Equal(t, "The Catcher in the Rye (Updated)", updateResp.Book.Title, "Updated book title should match")
-
 
 	listReq := &pb.ListBooksRequest{}
 	listResp, err := client.ListBooks(authCtx, listReq)

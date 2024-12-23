@@ -38,7 +38,7 @@ func main() {
 		log.Fatalf("Failed to start the server %v", err)
 	}
 
-	authSvc, err := auth.NewService("secret")
+	authSvc, err := auth.NewService("secret") // will be stored as env variable in prod
 	if err != nil {
 		log.Fatalf("failed to initialize auth service: %v", err)
 	}

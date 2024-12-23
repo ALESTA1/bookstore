@@ -7,6 +7,7 @@ import (
 	"context"
 	"log"
 	"net"
+	"os"
 
 	"google.golang.org/grpc"
 )
@@ -38,7 +39,12 @@ func main() {
 		log.Fatalf("Failed to start the server %v", err)
 	}
 
-	authSvc, err := auth.NewService("secret") // will be stored as env variable in prod
+	secretKey := os.Getenv("SECRET_KEY")
+	if secretKey == "" {
+		log.Fatalf("SECRET_KEY environment variable is not set")
+	}
+
+	authSvc, err := auth.NewService(secretKey) // will be stored as env variable in prod
 	if err != nil {
 		log.Fatalf("failed to initialize auth service: %v", err)
 	}

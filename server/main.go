@@ -8,7 +8,7 @@ import (
 	"log"
 	"net"
 	"os"
-
+	"google.golang.org/grpc/reflection"
 	"google.golang.org/grpc"
 )
 
@@ -58,6 +58,9 @@ func main() {
 	)
 
 	pb.RegisterBookServiceServer(grpcServer, &helloServer{AuthSvc: authSvc})
+
+	reflection.Register(grpcServer) //for testing with grpcurl
+
 	log.Printf("Server started at %v", lis.Addr())
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("Failed to start: %v", err)

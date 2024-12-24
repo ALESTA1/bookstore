@@ -56,6 +56,8 @@ To test the service, ensure the server is running and accessible at `localhost:8
    grpcurl -plaintext -h "authorization":<access token> -d '<Payload>' localhost:8080 bookstore.BookService/Login/<Method>
    ```
 
+   The available methods can be seen on in the proto file along with their request and response bodies.
+
 ## Notes
 
 - Ensure port `8080` is available before running the service.

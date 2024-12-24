@@ -60,6 +60,7 @@ To test the service, ensure the server is running and accessible at `localhost:8
 
 ## Notes
 
+- Client Is not part of the backend although it can be used to test the service.
 - Ensure port `8080` is available before running the service.
 - Update the `dockerfile` if additional dependencies or configurations are required.
 
